@@ -24,10 +24,11 @@
       hit = scene.intersect(path.ray) //obtain intersection point, normal vector, distance from ray origin, material...
       if hit {
         material = get_material(hit)
-        extension_ray = material.generate_extension_ray(path.ray, hit.N)
+        extension_dir = material.generate_extension_ray(path.ray.direction, hit.N)
         path.radiance += material.emission * throughput //light emitted by the object we hit
-        path.throughput *= material.BRDF(path.ray, extension_ray) * dot(extension_ray.direction, hit.N)
-        path.ray = extension_ray //update ray for the next bounce       
+        path.throughput *= material.BRDF(path.ray, extension_ray) * dot(extension_dir, hit.N)
+        path.ray = extension_ray //update direction for the next bounce
+        path.origin = hit.position //next ray originates at the hit position      
       } else { //miss
         path.radiance += sky_radiance(path.ray) * throughput //light radiated by the sky
         break //end path
