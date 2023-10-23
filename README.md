@@ -4,8 +4,8 @@
 - Paths start when a ray (direction + origin + payload) is created at the camera.
 - The payload is the throughput, that is, what light can that path carry back to the camera.
 - Rays are intersected with the scene.
-- Intersections can terminate or extend a path with an additional ray and will reduce throughput according a Bidirectional reflectance distribution function (BRDF).
-    This is because some light is absorbed or otherwise scattered in a direction other than the one we are extending.
+- Intersections can terminate or extend a path with an additional ray and will reduce throughput according to the Bidirectional reflectance distribution function (BRDF).
+    This is because some light is absorbed or otherwise scattered in a direction other than the one we are evaluating.
     The BRDF tells us for some radiance R coming to surface from direction A how much would reflect in direction B.
     Applying this to a backward path tracing intersection:
       - A is the extension ray (or rather its inverse), that is the direction that we will look for light next.
@@ -43,6 +43,8 @@
   - Only lambertian is implemented at the moment
 
 ## Additional complications implemented: [WIP]
+  - Bounding volume hierarchy for faster traversal of the scene
+  - SIMD sphere intersection
   - Light sampling and multiple importance sampling
   - Tracing adn shading a stream of rays instead of individual rays
   - Median of means instead of mean as the estimator to reduce fireflies
