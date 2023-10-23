@@ -7,13 +7,11 @@
 - Intersections can terminate or extend a path with an additional ray and will reduce throughput according to the Bidirectional reflectance distribution function (BRDF).
     This is because some light is absorbed or otherwise scattered in a direction other than the one we are evaluating.
     The BRDF tells us for some radiance R coming to surface from direction A how much would reflect in direction B.
-    Applying this to a backward path tracing intersection:
-      - A is the extension ray (or rather its inverse), that is the direction that we will look for light next.
-      - B is the inverse of our current ray.
+    Applying this to a backward path tracing intersection: A is the extension ray, that is the direction that we will look for light next and B is our current ray.
     The question is: for light coming from there (extension) how much (throughput) would reflect exactly through the path back to the camera?
 - When a path is terminated at a light source (could be the sky) we now it can carry the radiance from that light
   multiplied by the throughput of the path back to the camera, regardless of how many bounces it took to get there.
-- Multiple samples would be evaluated per pixel each generating different camera rays to simulate depth of field, different extension rays for materials that arent a perfect mirror, etc
+- Multiple samples would be evaluated per pixel, each generating different camera rays to simulate depth of field, different extension rays for materials that arent a perfect mirror, etc [Monte carlo integration]
 
   With additional complications detailed below this is what Renderer::Accummulate does. non-recursive pseudocode overview:
 ```
@@ -46,6 +44,6 @@
   - Bounding volume hierarchy for faster traversal of the scene
   - SIMD sphere intersection
   - Light sampling and multiple importance sampling
-  - Tracing adn shading a stream of rays instead of individual rays
+  - Tracing and shading a stream of rays instead of individual rays
   - Median of means instead of mean as the estimator to reduce fireflies
   
